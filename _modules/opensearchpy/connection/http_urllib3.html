@@ -17,6 +17,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -29,12 +30,16 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> OpenSearch Python Client
-            <img src="../../../_static/OpenSearch.svg" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OpenSearch Python Client
+              <img src="../../../_static/OpenSearch.svg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -63,9 +68,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>opensearchpy.connection.http_urllib3</li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">opensearchpy.connection.http_urllib3</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -125,18 +130,9 @@
 <span class="n">VERIFY_CERTS_DEFAULT</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
 <span class="n">SSL_SHOW_WARN_DEFAULT</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
 
-<span class="n">CA_CERTS</span> <span class="o">=</span> <span class="kc">None</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">certifi</span>
-
-    <span class="n">CA_CERTS</span> <span class="o">=</span> <span class="n">certifi</span><span class="o">.</span><span class="n">where</span><span class="p">()</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="k">pass</span>
-
 
 <span class="k">def</span> <span class="nf">create_ssl_context</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A helper function around creating an SSL context</span>
 
 <span class="sd">    https://docs.python.org/3/library/ssl.html#context-creation</span>
@@ -148,7 +144,7 @@
 
 
 <div class="viewcode-block" id="Urllib3HttpConnection"><a class="viewcode-back" href="../../../api-ref/connection.html#opensearchpy.Urllib3HttpConnection">[docs]</a><span class="k">class</span> <span class="nc">Urllib3HttpConnection</span><span class="p">(</span><span class="n">Connection</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Default connection class using the `urllib3` library and the http protocol.</span>
 
 <span class="sd">    :arg host: hostname of the node (default: localhost)</span>
@@ -262,7 +258,7 @@
             <span class="k">if</span> <span class="n">ssl_show_warn</span> <span class="ow">is</span> <span class="n">SSL_SHOW_WARN_DEFAULT</span><span class="p">:</span>
                 <span class="n">ssl_show_warn</span> <span class="o">=</span> <span class="kc">True</span>
 
-            <span class="n">ca_certs</span> <span class="o">=</span> <span class="n">CA_CERTS</span> <span class="k">if</span> <span class="n">ca_certs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ca_certs</span>
+            <span class="n">ca_certs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_ca_certs</span><span class="p">()</span> <span class="k">if</span> <span class="n">ca_certs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">ca_certs</span>
             <span class="k">if</span> <span class="n">verify_certs</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">ca_certs</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">ImproperlyConfigured</span><span class="p">(</span>
@@ -359,13 +355,13 @@
             <span class="n">method</span><span class="p">,</span> <span class="n">full_url</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">orig_body</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">raw_data</span><span class="p">,</span> <span class="n">duration</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">getheaders</span><span class="p">(),</span> <span class="n">raw_data</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span> <span class="n">raw_data</span>
 
     <span class="k">def</span> <span class="nf">get_response_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">value</span> <span class="k">for</span> <span class="n">header</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 <div class="viewcode-block" id="Urllib3HttpConnection.close"><a class="viewcode-back" href="../../../api-ref/connection.html#opensearchpy.Urllib3HttpConnection.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Explicitly closes connection</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>

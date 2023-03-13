@@ -64,6 +64,7 @@ GLOBAL_QUERY_PARAMS = {
     "ignore": "Optional[Union[int, Collection[int]]]",
     "opaque_id": "Optional[str]",
     "http_auth": "Optional[Union[str, Tuple[str, str]]]",
+    "bearer_auth": "Optional[str]",
     "api_key": "Optional[Union[str, Tuple[str, str]]]",
 }
 

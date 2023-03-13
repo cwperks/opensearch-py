@@ -111,13 +111,19 @@ class TestQueryParams(TestCase):
         )
 
         # If one or the other is 'None' it's all good!
-        self.func_to_wrap(http_auth=None, api_key=None)
+        self.func_to_wrap(http_auth=None, bearer_auth=None, api_key=None)
         self.assertEqual(self.calls[-1], ((), {"headers": {}, "params": {}}))
 
-        self.func_to_wrap(http_auth="abcdef", api_key=None)
+        self.func_to_wrap(http_auth="abcdef", bearer_auth=None, api_key=None)
         self.assertEqual(
             self.calls[-1],
             ((), {"headers": {"authorization": "Basic abcdef"}, "params": {}}),
+        )
+
+        self.func_to_wrap(http_auth=None, bearer_auth="jwt", api_key=None)
+        self.assertEqual(
+            self.calls[-1],
+            ((), {"headers": {"authorization": "Bearer jwt"}, "params": {}}),
         )
 
         # If both are given values an error is raised.
@@ -125,7 +131,7 @@ class TestQueryParams(TestCase):
             self.func_to_wrap(http_auth="key", api_key=("1", "2"))
         self.assertEqual(
             str(e.exception),
-            "Only one of 'http_auth' and 'api_key' may be passed at a time",
+            "Only one of 'http_auth', 'bearer_auth' and 'api_key' may be passed at a time",
         )
 
 

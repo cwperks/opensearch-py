@@ -663,6 +663,7 @@ class TestScan(object):
         "kwargs",
         [
             {"api_key": ("name", "value")},
+            {"bearer_auth": ("jwt")},
             {"http_auth": ("username", "password")},
             {"headers": {"custom", "header"}},
         ],

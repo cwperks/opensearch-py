@@ -148,20 +148,34 @@ def query_params(*opensearch_query_params):
                 for k, v in (kwargs.pop("headers", None) or {}).copy().items()
             }
 
+            print(f"params: {params}")
+            print(f"headers: {headers}")
             if "opaque_id" in kwargs:
                 headers["x-opaque-id"] = kwargs.pop("opaque_id")
 
             http_auth = kwargs.pop("http_auth", None)
+            bearer_auth = kwargs.pop("bearer_auth", None)
             api_key = kwargs.pop("api_key", None)
 
-            if http_auth is not None and api_key is not None:
+            if (
+                sum(
+                    [
+                        http_auth is not None,
+                        bearer_auth is not None,
+                        api_key is not None,
+                    ]
+                )
+                >= 2
+            ):
                 raise ValueError(
-                    "Only one of 'http_auth' and 'api_key' may be passed at a time"
+                    "Only one of 'http_auth', 'bearer_auth' and 'api_key' may be passed at a time"
                 )
             elif http_auth is not None:
                 headers["authorization"] = "Basic %s" % (
                     _base64_auth_header(http_auth),
                 )
+            elif bearer_auth is not None:
+                headers["authorization"] = "Bearer %s" % (bearer_auth,)
             elif api_key is not None:
                 headers["authorization"] = "ApiKey %s" % (_base64_auth_header(api_key),)
 

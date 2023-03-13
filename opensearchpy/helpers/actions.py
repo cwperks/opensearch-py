@@ -549,7 +549,7 @@ def scan(
     # Grab options that should be propagated to every
     # API call within this helper instead of just 'search()'
     transport_kwargs = {}
-    for key in ("headers", "api_key", "http_auth"):
+    for key in ("headers", "api_key", "http_auth", "bearer_auth"):
         if key in kwargs:
             transport_kwargs[key] = kwargs[key]
 

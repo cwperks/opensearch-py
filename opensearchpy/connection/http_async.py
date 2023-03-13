@@ -35,6 +35,7 @@ class AsyncHttpConnection(AIOHttpConnection):
         host="localhost",
         port=None,
         http_auth=None,
+        bearer_auth=None,
         use_ssl=False,
         verify_certs=VERIFY_CERTS_DEFAULT,
         ssl_show_warn=SSL_SHOW_WARN_DEFAULT,
@@ -141,6 +142,7 @@ class AsyncHttpConnection(AIOHttpConnection):
         # Parameters for creating an aiohttp.ClientSession later.
         self._limit = maxsize
         self._http_auth = http_auth
+        self._bearer_auth = bearer_auth
         self._ssl_context = ssl_context
 
     async def perform_request(
@@ -193,6 +195,7 @@ class AsyncHttpConnection(AIOHttpConnection):
         req_headers = {
             **req_headers,
             **self._http_auth(method, url, query_string, body),
+            **self._bearer_auth(method, url, query_string, body),
         }
 
         start = self.loop.time()

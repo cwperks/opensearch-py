@@ -71,6 +71,7 @@ class Urllib3HttpConnection(Connection):
     :arg timeout: default timeout in seconds (float, default: 10)
     :arg http_auth: optional http auth information as either ':' separated
         string or a tuple
+    :arg bearer_auth: optional http bearer auth information
     :arg use_ssl: use ssl for the connection if `True`
     :arg verify_certs: whether to verify SSL certificates
     :arg ssl_show_warn: show warning when verify certs is disabled
@@ -100,6 +101,7 @@ class Urllib3HttpConnection(Connection):
         host="localhost",
         port=None,
         http_auth=None,
+        bearer_auth=None,
         use_ssl=False,
         verify_certs=VERIFY_CERTS_DEFAULT,
         ssl_show_warn=SSL_SHOW_WARN_DEFAULT,
@@ -132,6 +134,9 @@ class Urllib3HttpConnection(Connection):
             if isinstance(http_auth, (tuple, list)):
                 http_auth = ":".join(http_auth)
             self.headers.update(urllib3.make_headers(basic_auth=http_auth))
+
+        if bearer_auth is not None:
+            self.headers["Authorization"] = f"Bearer {bearer_auth}"
 
         pool_class = urllib3.HTTPConnectionPool
         kw = {}
